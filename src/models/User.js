@@ -2,12 +2,12 @@ import { Schema, Types, model } from 'mongoose'
 
 const userSchema = new Schema({
   username: { type: String, required: true },
-  password: { type: String, required: true },
-  name: { type: String, required: true },
-  surname: { type: String, required: true },
-  email: { type: String, required: true },
+  hash: { type: String, required: true },
+  name: { type: String },
+  surname: { type: String },
+  email: { type: String },
   role: { type: String, required: true },
-  enroledCourses: [{ type: Types.ObjectId, ref: 'Course' }]
+  courses: [{ type: Types.ObjectId, ref: 'Course' }]
 })
 
 export default model('User', userSchema)
