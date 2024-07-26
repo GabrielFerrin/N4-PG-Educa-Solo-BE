@@ -1,0 +1,67 @@
+[
+  {
+    "name": "Midterm Project",
+    "starts": "2024-09-15T08:00:00Z",
+    "ends": "2024-09-15T17:00:00Z",
+    "minGrade": 50,
+    "maxGrade": 100,
+    "course": "64c9b24f5e4d4e1b88c4d3f2"
+  },
+  {
+    "name": "Final Exam",
+    "starts": "2024-08-01T09:00:00Z",
+    "ends": "2024-08-01T12:00:00Z",
+    "minGrade": 0,
+    "maxGrade": 100,
+    "course": "66a3bf9a347a83aa195fc620"
+  }, {
+    "_id": "64c9b24f5e4d4e1b88c4d3f4",
+    "name": "Biology Exam",
+    "starts": "2024-09-01T08:00:00Z",
+    "ends": "2024-09-01T10:00:00Z",
+    "minGrade": 0,
+    "maxGrade": 100,
+    "course": "64c9b24f5e4d4e1b88c4d3f1",
+    "items": [
+      {
+        "type": "multiple_choice",
+        "data": {
+          "question": "What is the capital of France?",
+          "options": [
+            "Paris",
+            "Berlin",
+            "Madrid",
+            "Rome"
+          ],
+          "correctOption": "Paris"
+        }
+      },
+      {
+        "type": "reading",
+        "data": {
+          "title": "The History of the Internet",
+          "content": "The Internet began as a military project in the 1960s...",
+          "questions": [
+            {
+              "question": "Who initiated the project that led to the creation of the Internet?",
+              "type": "short_answer"
+            }
+          ]
+        }
+      },
+      {
+        "type": "video_recording",
+        "data": {
+          "prompt": "Record a 2-minute video explaining the process of photosynthesis."
+        }
+      },
+      {
+        "type": "true_false",
+        "data": {
+          "statement": "The Earth is flat.",
+          "correctAnswer": false
+        }
+      }
+    ]
+  }
+]

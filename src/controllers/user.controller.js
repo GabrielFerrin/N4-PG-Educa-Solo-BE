@@ -114,8 +114,9 @@ const enrollCourse = async (req, res) => {
     response = await User.findOneAndUpdate(
       { _id: req.body.userId },
       {
-        $addToSet:
-          { courses: { courseId: req.body.courseId, grade: 0 } }
+        $addToSet: {
+          courses: { courseId: req.body.courseId, grade: 0 }
+        }
       },
       { new: true }
     )
