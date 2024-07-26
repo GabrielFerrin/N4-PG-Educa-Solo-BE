@@ -1,5 +1,10 @@
 import { Schema, Types, model } from 'mongoose'
 
+const courseSchema = new Schema({
+  courseId: { type: Types.ObjectId, ref: 'Course', required: true },
+  grade: { type: Number, required: true }
+}, { _id: false })
+
 const userSchema = new Schema({
   username: { type: String, required: true },
   hash: { type: String, required: true },
@@ -7,7 +12,7 @@ const userSchema = new Schema({
   surname: { type: String },
   email: { type: String },
   role: { type: String, required: true },
-  courses: [{ type: Types.ObjectId, ref: 'Course' }]
+  courses: [courseSchema]
 }, { timestamps: true })
 
 export default model('User', userSchema)
