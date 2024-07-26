@@ -1,9 +1,10 @@
 import express from 'express'
 import morgan from 'morgan'
-import userR from './routes/user.routes.js'
+import { connectDB } from './config/config.js'
 import notImplemented from './middleware/notImplemented.js'
 import error from './middleware/error.js'
-import { connectDB } from './config/config.js'
+import userR from './routes/user.routes.js'
+import courseR from './routes/course.routes.js'
 
 const app = express()
 
@@ -13,6 +14,7 @@ app.use(express.json())
 app.use(morgan('dev'))
 
 app.use('/api/users', userR)
+app.use('/api/courses', courseR)
 
 app.use(notImplemented)
 app.use(error)

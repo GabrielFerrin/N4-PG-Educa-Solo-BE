@@ -36,9 +36,9 @@ const createUser = async (req, res) => {
 
 // helper
 const validateUser = async (user, errorList) => {
-  if (!user.username) errorList.push('Username is required')
-  if (!user.password) errorList.push('Password is required')
-  if (!user.role) errorList.push('Role is required')
+  if (!user.username) errorList.push('El usuario es requerido')
+  if (!user.password) errorList.push('La contraseña es requerida')
+  if (!user.role) errorList.push('El rol es requerido')
   if (user.role) {
     (user.role !== 'estudiante' && user.role !== 'maestro') &&
       errorList.push('Rol inválido')
@@ -46,14 +46,14 @@ const validateUser = async (user, errorList) => {
   if (user.username) {
     const userExists = await User.findOne({ username: user.username })
     if (userExists) {
-      const message = 'User already exists'
+      const message = 'El usuario ya existe'
       errorList.push(message)
     }
   }
   if (user.email) {
     const emailExists = await User.findOne({ email: user.email })
     if (emailExists) {
-      const message = 'Email already exists'
+      const message = 'El correo ya existe'
       errorList.push(message)
     }
   }

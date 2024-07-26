@@ -8,6 +8,6 @@ const userSchema = new Schema({
   email: { type: String },
   role: { type: String, required: true },
   courses: [{ type: Types.ObjectId, ref: 'Course' }]
-})
+}, { timestamps: true })
 
 export default model('User', userSchema)
