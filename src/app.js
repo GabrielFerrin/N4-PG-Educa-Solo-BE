@@ -6,6 +6,7 @@ import error from './middleware/error.js'
 import userR from './routes/user.routes.js'
 import courseR from './routes/course.routes.js'
 import activityR from './routes/activity.routes.js'
+import attemptR from './routes/attempt.routes.js'
 
 const app = express()
 
@@ -17,6 +18,7 @@ app.use(morgan('dev'))
 app.use('/api/users', userR)
 app.use('/api/courses', courseR)
 app.use('/api/activities', activityR)
+app.use('/api/attempts', attemptR)
 
 app.use(notImplemented)
 app.use(error)

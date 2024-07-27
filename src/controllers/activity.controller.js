@@ -1,9 +1,5 @@
-import { createToken } from '../helpers/general.js'
-import jwt from 'jsonwebtoken'
 import Activity from '../models/Activity.js'
 import Course from '../models/Course.js'
-import User from '../models/User.js'
-import { SECRET_KEY } from '../config/config.js'
 
 const createActivity = async (req, res) => {
   const errorList = []
@@ -105,32 +101,4 @@ const validateBoolItem = (activity, errorList) => {
   if (!activity.answer === null) errorList.push('Se requiere la respuesta')
 }
 
-export const validateTeacherRole = async (req, res, next) => {
-  const { authorization } = req.headers
-  let message = 'No autorizado'
-  if (!authorization) {
-    return res.status(401).json({ success: false, message })
-  }
-  try {
-    const decoded = await jwt.verify(authorization, SECRET_KEY)
-    const user = await User.findById(decoded.id)
-    if (!user) {
-      message = 'No autorizado'
-      return res.status(401).json({ success: false, message })
-    }
-    if (user.role !== 'maestro') {
-      console.log(user)
-      message = 'El usuario no tiene los permisos necesarios'
-      return res.status(401).json({ success: false, message })
-    }
-    const token = createToken({ id: user._id })
-    req.body.userId = decoded.id
-    req.body.token = token
-    next()
-  } catch (error) {
-    return res.status(401)
-      .json({ success: false, message: error.message })
-  }
-}
-
-export default { createActivity, createActItem, validateTeacherRole }
+export default { createActivity, createActItem }

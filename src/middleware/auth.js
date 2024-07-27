@@ -20,7 +20,8 @@ export const auth = async (req, res, next) => {
     req.body.userId = decoded.id
     req.body.token = token
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message })
+    return res.status(500)
+      .json({ success: false, message: error.message })
   }
   next()
 }
