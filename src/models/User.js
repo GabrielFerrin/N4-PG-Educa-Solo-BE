@@ -11,7 +11,7 @@ const userSchema = new Schema({
   name: { type: String },
   surname: { type: String },
   email: { type: String },
-  role: { type: String, required: true },
+  role: { type: String, default: 'estudiante' },
   courses: [courseSchema]
 }, { timestamps: true })
 

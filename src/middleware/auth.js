@@ -11,7 +11,7 @@ export const auth = async (req, res, next) => {
   }
   try {
     const decoded = await jwt.verify(authorization, SECRET_KEY)
-    const user = User.findById(decoded.id)
+    const user = await User.findById(decoded.id)
     if (!user) {
       const message = 'No autorizado'
       return res.status(401).json({ success: false, message })

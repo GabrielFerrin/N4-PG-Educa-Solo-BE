@@ -24,7 +24,7 @@
     "course": "64c9b24f5e4d4e1b88c4d3f1",
     "items": [
       {
-        "type": "multiple_choice",
+        "type": "mult",
         "data": {
           "question": "What is the capital of France?",
           "options": [
@@ -33,7 +33,7 @@
             "Madrid",
             "Rome"
           ],
-          "correctOption": "Paris"
+          "answer": "Paris"
         }
       },
       {
@@ -59,7 +59,7 @@
         "type": "true_false",
         "data": {
           "statement": "The Earth is flat.",
-          "correctAnswer": false
+          "answer": false
         }
       }
     ]

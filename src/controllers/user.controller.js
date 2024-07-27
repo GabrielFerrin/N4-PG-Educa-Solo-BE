@@ -43,7 +43,6 @@ const createUser = async (req, res) => {
 const validateUser = async (user, errorList) => {
   if (!user.username) errorList.push('El usuario es requerido')
   if (!user.password) errorList.push('La contraseña es requerida')
-  if (!user.role) errorList.push('El rol es requerido')
   if (user.role) {
     (user.role !== 'estudiante' && user.role !== 'maestro') &&
       errorList.push('Rol inválido')
