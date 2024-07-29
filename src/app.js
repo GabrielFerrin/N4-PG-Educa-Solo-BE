@@ -12,11 +12,13 @@ import { cors, options } from './middleware/cors.js'
 const app = express()
 
 connectDB()
-// middlewares
-app.use(express.json())
+// Apply middlewares
 app.use(morgan('dev'))
+app.use(express.json())
 app.use(cors)
-app.options(options)
+
+// Handle OPTIONS requests for all routes
+app.options('*', options)
 // routes
 app.use('/api/users', userR)
 app.use('/api/courses', courseR)

@@ -25,9 +25,10 @@ export const auth = async (req, res, next) => {
     }
     const token = createToken({ id: user._id })
     req.body.userId = decoded.id
-    req.body.token = token
+    const { __v, _id, hash, ...userData } = user.toObject()
+    userData.token = token
     if (req.query.verifyToken) {
-      return res.status(201).json({ success: true, data: user })
+      return res.status(201).json({ success: true, data: userData })
     }
     next()
   } catch (error) {

@@ -3,27 +3,25 @@ const allowedOrigins = new Set([
   'https://n4-mp-auth-fe.onrender.com'
 ])
 
-export const cors = (req, res, next) => {
+const setCorsHeaders = (req, res) => {
   const origin = req.headers.origin || req.headers.host
   const isAllowed = allowedOrigins.has(origin)
-
-  res.setHeader('Access-Control-Allow-Origin', isAllowed ? origin : '')
-  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  if (isAllowed) {
+    res.setHeader('Access-Control-Allow-Origin', origin)
+    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, authorization')
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '')
+  }
   res.removeHeader('X-Powered-By')
+}
 
-  console.log('Origin:', origin)
-
+export const cors = (req, res, next) => {
+  setCorsHeaders(req, res)
   next()
 }
 
 export const options = (req, res) => {
-  const origin = req.headers.origin || req.headers.host
-  const isAllowed = allowedOrigins.has(origin)
-
-  res.setHeader('Access-Control-Allow-Origin', isAllowed ? origin : '')
-  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-
-  res.status(204).end()
+  setCorsHeaders(req, res)
+  res.status(200).end()
 }
