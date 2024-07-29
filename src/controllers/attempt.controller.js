@@ -26,7 +26,7 @@ const createAttempt = async (req, res) => {
   }
 }
 
-const createAttemptItem = async (req, res) => {
+const answerQuestion = async (req, res) => {
   let message = 'Falta información requerida'
   const { attemptId, itemId, data } = req.body
   if (!attemptId || !itemId || !data) {
@@ -51,4 +51,4 @@ const createAttemptItem = async (req, res) => {
   }
 }
 
-export default { createAttempt, createAttemptItem }
+export default { createAttempt, answerQuestion }

@@ -12,6 +12,13 @@ export const auth = async (req, res, next) => {
   try {
     const decoded = await jwt.verify(authorization, SECRET_KEY)
     const user = await User.findById(decoded.id)
+      .populate({
+        path: 'courses.courseId',
+        populate: [
+          { path: 'activities.activityId' },
+          { path: 'author', select: 'name surname' }
+        ]
+      })
     if (!user) {
       const message = 'No autorizado'
       return res.status(401).json({ success: false, message })
@@ -19,9 +26,12 @@ export const auth = async (req, res, next) => {
     const token = createToken({ id: user._id })
     req.body.userId = decoded.id
     req.body.token = token
+    if (req.query.verifyToken) {
+      return res.status(201).json({ success: true, data: user })
+    }
+    next()
   } catch (error) {
     return res.status(500)
       .json({ success: false, message: error.message })
   }
-  next()
 }

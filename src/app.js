@@ -7,6 +7,7 @@ import userR from './routes/user.routes.js'
 import courseR from './routes/course.routes.js'
 import activityR from './routes/activity.routes.js'
 import attemptR from './routes/attempt.routes.js'
+import { cors, options } from './middleware/cors.js'
 
 const app = express()
 
@@ -14,6 +15,8 @@ connectDB()
 // middlewares
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(cors)
+app.options(options)
 // routes
 app.use('/api/users', userR)
 app.use('/api/courses', courseR)

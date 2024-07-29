@@ -1,13 +1,13 @@
 import { Schema, model } from 'mongoose'
 
 const itemSchema = new Schema({
-  _id: { type: Schema.Types.ObjectId, auto: true },
   type: { type: String, required: true },
   data: { type: Schema.Types.Mixed, required: true }
 }, { timestamps: true })
 
 const activitySchema = new Schema({
   name: { type: String, required: true },
+  type: { type: String, required: true },
   starts: { type: Date },
   ends: { type: Date },
   timeAllowed: { type: Number },

@@ -24,7 +24,6 @@ export const validateTeacherRole = async (req, res, next) => {
       return res.status(401).json({ success: false, message })
     }
     if (user.role !== 'maestro') {
-      console.log(user)
       message = 'El usuario no tiene los permisos necesarios'
       return res.status(401).json({ success: false, message })
     }

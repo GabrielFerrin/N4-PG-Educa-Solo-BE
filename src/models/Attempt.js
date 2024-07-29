@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose'
 const answerSchema = new Schema({
   itemId: { type: Schema.Types.ObjectId, ref: 'Item', required: true },
   data: { type: Schema.Types.Mixed }
-}, { timestamps: true }, { _id: false })
+}, { timestamps: true, _id: false })
 
 const attemptSchema = new Schema({
   userId: {

@@ -5,18 +5,24 @@ const createActivity = async (req, res) => {
   const errorList = []
   await validateActivity(req.body, errorList)
   if (errorList.length > 0) {
-    return res.status(400).json(errorList)
+    return res.status(400).json({ success: false, message: errorList })
   }
   try {
-    const response = await Activity.create({
+    const activity = await Activity.create({
       name: req.body.name,
+      type: req.body.type,
       starts: req.body.starts,
       ends: req.body.ends,
+      timeAllowed: req.body.timeAllowed,
       minGrade: req.body.minGrade,
       maxGrade: req.body.maxGrade,
       course: req.body.course
     })
-    res.status(201).json({ success: true, data: response })
+    await Course.findOneAndUpdate(
+      { _id: req.body.course },
+      { $push: { activities: { activityId: activity._id } } }
+    )
+    res.status(201).json({ success: true, data: activity })
   } catch (error) {
     res.status(500).json({ success: false, message: error.message })
   }
@@ -25,9 +31,9 @@ const createActivity = async (req, res) => {
 const validateActivity = async (activity, errorList) => {
   if (!activity.name) errorList.push('El nombre es requerido')
   if (!activity.course) errorList.push('El curso es requerido')
+  if (!activity.type) errorList.push('El tipo de actividad es requerido')
   if (activity.name && activity.course) {
     const courseExists = await Course.findOne({ _id: activity.course })
-    console.log(activity.course)
     if (!courseExists) errorList.push('El curso no existe')
   }
 }
@@ -96,7 +102,6 @@ const validateMultItem = (activity, errorList) => {
 }
 
 const validateBoolItem = (activity, errorList) => {
-  console.log(activity.answer === null)
   if (!activity.statement) errorList.push('Se requiere la afirmación')
   if (!activity.answer === null) errorList.push('Se requiere la respuesta')
 }

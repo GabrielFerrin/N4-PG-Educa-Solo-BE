@@ -6,6 +6,6 @@ const router = Router()
 
 router.use(auth)
 router.post('/', attemptC.createAttempt)
-router.post('/item', attemptC.createAttemptItem)
+router.post('/answer', attemptC.answerQuestion)
 
 export default router

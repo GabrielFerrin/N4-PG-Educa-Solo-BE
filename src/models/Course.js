@@ -3,11 +3,12 @@ import { Schema, model } from 'mongoose'
 const activitySchema = new Schema({
   activityId: { type: Schema.Types.ObjectId, ref: 'Activity', required: true },
   grade: { type: Number }
-}, { timestamps: true })
+}, { _id: false })
 
 const courseSchema = new Schema({
   name: { type: String, required: true },
   code: { type: String, required: true },
+  author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   description: { type: String },
   area: { type: String },
   starts: { type: Date },

@@ -17,10 +17,10 @@ const createUser = async (req, res) => {
   const errorList = []
   await validateUser(req.body, errorList)
   if (errorList.length > 0) {
-    return res.status(400).json(errorList)
+    return res.status(400).json({ success: false, message: errorList })
   }
   try {
-    const hashedPassword = await hash(req.body.password, 11)
+    const hashedPassword = await hash(req.body.hash, 11)
     const response = await User.create({
       username: req.body.username,
       hash: hashedPassword,
@@ -42,7 +42,7 @@ const createUser = async (req, res) => {
 // helper
 const validateUser = async (user, errorList) => {
   if (!user.username) errorList.push('El usuario es requerido')
-  if (!user.password) errorList.push('La contraseña es requerida')
+  if (!user.hash) errorList.push('La contraseña es requerida')
   if (user.role) {
     (user.role !== 'estudiante' && user.role !== 'maestro') &&
       errorList.push('Rol inválido')
@@ -70,8 +70,15 @@ const login = async (req, res) => {
   }
   try {
     const user = await User.findOne({ username: req.body.username })
+      .populate({
+        path: 'courses.courseId',
+        populate: [
+          { path: 'activities.activityId' },
+          { path: 'author', select: 'name surname' }
+        ]
+      })
     if (!user) {
-      const message = 'El usuario no existe'
+      const message = 'Las credenciales son inválidas'
       return res.status(401).json({ success: false, message })
     }
     const match = await compare(req.body.password, user.hash)
@@ -79,13 +86,14 @@ const login = async (req, res) => {
       const message = 'Las credenciales son inválidas'
       return res.status(401).json({ success: false, message })
     }
-    const { hash: _hash, _id, __v, courses, ...userLogin } =
+    const { hash: _hash, _id, __v, ...userLogin } =
       user.toObject()
     const token = createToken({ id: _id })
     userLogin.token = token
-    res.status(201).json({ success: true, data: userLogin })
+    return res.status(201).json({ success: true, data: userLogin })
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message })
+    return res.status(500)
+      .json({ success: false, message: error.message })
   }
 }
 
@@ -106,7 +114,9 @@ const enrollCourse = async (req, res) => {
       return res.status(400).json({ success: false, message })
     }
     let response = await User.findOne({ _id: req.body.userId })
-    if (response.courses.some(course => course.courseId.equals(req.body.courseId))) {
+    const registered = response.courses
+      .some(course => course.courseId.equals(req.body.courseId))
+    if (registered) {
       message = 'El curso ya se encuentra inscrito'
       return res.status(400).json({ success: false, message })
     }

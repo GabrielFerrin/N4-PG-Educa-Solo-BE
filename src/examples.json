@@ -14,7 +14,8 @@
     "minGrade": 0,
     "maxGrade": 100,
     "course": "66a3bf9a347a83aa195fc620"
-  }, {
+  },
+  {
     "_id": "64c9b24f5e4d4e1b88c4d3f4",
     "name": "Biology Exam",
     "starts": "2024-09-01T08:00:00Z",
@@ -63,5 +64,49 @@
         }
       }
     ]
+  },
+  {
+    "name": "Mathematics for the real world",
+    "code": "MAT 001",
+    "author": "66a67c479b4fa151ec6730bc",
+    "description": "Real world mathematics to solve every day problems",
+    "area": "Math",
+    "starts": "2024-08-01",
+    "ends": "2024-10-28"
+  },
+  {
+    "name": "English Elementary EF",
+    "code": "ENG 001",
+    "author": "66a67c479b4fa151ec6730bc",
+    "description": "Elementary level for the European Framework",
+    "area": "Eng",
+    "starts": "2024-08-01",
+    "ends": "2024-10-28"
+  },
+  {
+    "name": "English A1 EF",
+    "code": "ENG 002",
+    "author": "66a67c479b4fa151ec6730bc",
+    "description": "A1 level for the European Framework",
+    "area": "Eng",
+    "starts": "2024-08-01",
+    "ends": "2024-10-28"
+  },
+  {
+    "name": "Quiz",
+    "type": "quiz",
+    "starts": "2024-09-18T08:00:00Z",
+    "ends": "2024-09-15T18:00:00Z",
+    "timeAllowed": "60",
+    "minGrade": 7,
+    "maxGrade": 10,
+    "course": "66a68111ceac73cd5c4d0863"
+  },
+  {
+    "name": "Personal Pronouns",
+    "type": "cont",
+    "starts": "2024-09-18T08:00:00Z",
+    "ends": "2024-09-15T18:00:00Z",
+    "course": "66a68111ceac73cd5c4d0863"
   }
 ]

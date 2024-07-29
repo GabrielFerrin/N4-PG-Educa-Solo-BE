@@ -5,6 +5,6 @@ import { validateTeacherRole } from '../helpers/general.js'
 const router = Router()
 
 router.use(validateTeacherRole)
-router.get('/', courseC.createCourse)
+router.post('/', courseC.createCourse)
 
 export default router

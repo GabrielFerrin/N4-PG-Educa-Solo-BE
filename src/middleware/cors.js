@@ -3,7 +3,7 @@ const allowedOrigins = new Set([
   'https://n4-mp-auth-fe.onrender.com'
 ])
 
-export const corsMiddleware = (req, res, next) => {
+export const cors = (req, res, next) => {
   const origin = req.headers.origin || req.headers.host
   const isAllowed = allowedOrigins.has(origin)
 
@@ -17,7 +17,7 @@ export const corsMiddleware = (req, res, next) => {
   next()
 }
 
-export const corsOptions = (req, res) => {
+export const options = (req, res) => {
   const origin = req.headers.origin || req.headers.host
   const isAllowed = allowedOrigins.has(origin)
 
