@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose'
 
 const answerSchema = new Schema({
   itemId: { type: Schema.Types.ObjectId, ref: 'Item', required: true },
+  points: { type: Number, default: null },
   data: { type: Schema.Types.Mixed }
 }, { timestamps: true, _id: false })
 
@@ -12,6 +13,7 @@ const attemptSchema = new Schema({
   activityId: {
     type: Schema.Types.ObjectId, ref: 'Activity', required: true
   },
+  closed: { type: Boolean, default: false },
   grade: { type: Number },
   answers: [answerSchema]
 }, { timestamps: true })

@@ -26,6 +26,49 @@ const createAttempt = async (req, res) => {
   }
 }
 
+const getAttempt = async (req, res) => {
+  let message = 'Se requiere el id de la actividad'
+  const { activityId } = req.body
+  if (!activityId) {
+    console.log(req.body.activityId)
+    console.log(activityId)
+    return res.status(400).json({ success: false, message })
+  }
+  try {
+    const attempt = await Attempt.findOne({ activityId })
+    if (!attempt) {
+      message = 'El intento no existe'
+      return res.status(400).json({ success: false, message })
+    }
+    return res.send({ success: true, data: attempt })
+  } catch (error) {
+    return res.status(500)
+      .json({ success: false, message: error.message })
+  }
+}
+
+const getAttempts = async (req, res) => {
+  const message = 'Se requiere el id del curso y del usuario'
+  const { userId, activitiesList } = req.body
+  if (!userId || !activitiesList) {
+    return res.status(400).json({ success: false, message })
+  }
+  try {
+    const attempts = await Attempt.find({
+      $and: [
+        { userId },
+        { activityId: { $in: activitiesList } }
+      ]
+    }).exec()
+
+    console.log('attempts:', attempts)
+    return res.send({ success: true, data: attempts })
+  } catch (error) {
+    return res.status(500)
+      .json({ success: false, message: error.message })
+  }
+}
+
 const answerQuestion = async (req, res) => {
   let message = 'Falta información requerida'
   const { attemptId, itemId, data } = req.body
@@ -51,4 +94,26 @@ const answerQuestion = async (req, res) => {
   }
 }
 
-export default { createAttempt, answerQuestion }
+const closeAttempt = async (req, res) => {
+  let message = 'Se requiere el id del intento'
+  const { attemptId } = req.body
+  if (!attemptId) {
+    return res.status(400).json({ success: false, message })
+  }
+  try {
+    const attempt = await Attempt.findOne({ _id: attemptId })
+    if (!attempt) {
+      message = 'El intento no existe'
+      return res.status(400).json({ success: false, message })
+    }
+    attempt.closed = true
+    await attempt.save()
+    return res.status(200).json({ success: true, message: 'Intento cerrado correctamente', attempt })
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message })
+  }
+}
+
+export default {
+  createAttempt, answerQuestion, getAttempt, closeAttempt, getAttempts
+}
