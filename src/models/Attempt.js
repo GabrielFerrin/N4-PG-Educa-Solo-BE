@@ -3,6 +3,7 @@ import { Schema, model } from 'mongoose'
 const answerSchema = new Schema({
   itemId: { type: Schema.Types.ObjectId, ref: 'Item', required: true },
   points: { type: Number, default: null },
+  question: { type: Schema.Types.Mixed },
   data: { type: Schema.Types.Mixed }
 }, { timestamps: true, _id: false })
 

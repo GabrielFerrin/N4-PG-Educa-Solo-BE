@@ -3,8 +3,9 @@ import { SECRET_KEY } from '../config/config.js'
 import User from '../models/User.js'
 import { createToken } from '../helpers/general.js'
 
-export const auth = async (req, res, next) => {
-  const { authorization } = req.headers
+export const authVideo = async (req, res, next) => {
+  const authorization = req.query.token
+  console.log(authorization)
   if (!authorization) {
     const message = 'No autorizado'
     return res.status(401).json({ success: false, message })

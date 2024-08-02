@@ -10,11 +10,14 @@ const activitySchema = new Schema({
   type: { type: String, required: true },
   starts: { type: Date },
   ends: { type: Date },
+  color: { type: String },
   timeAllowed: { type: Number },
   minGrade: { type: Number, default: 7 },
   maxGrade: { type: Number, default: 10 },
   attempts: { type: Number, default: 1 },
-  course: { type: Schema.Types.ObjectId, ref: 'Course' },
+  completed: { type: Boolean, default: false },
+  grade: { type: Number, default: 0 },
+  course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
   items: [itemSchema]
 }, { timestamps: true })
 

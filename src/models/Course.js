@@ -11,6 +11,7 @@ const courseSchema = new Schema({
   code: { type: String, required: true },
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   description: { type: String },
+  image: { type: String },
   area: { type: String },
   starts: { type: Date },
   ends: { type: Date },

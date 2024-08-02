@@ -3,6 +3,8 @@ import { createToken } from '../helpers/general.js'
 import User from '../models/User.js'
 import { compare, hash } from 'bcrypt'
 import Course from '../models/Course.js'
+import Attempt from '../models/Attempt.js'
+import path from 'path'
 
 const getUsers = async (req, res) => {
   try {
@@ -135,4 +137,96 @@ const enrollCourse = async (req, res) => {
   }
 }
 
-export default { getUsers, createUser, login, enrollCourse }
+const updateUser = async (req, res) => {
+  try {
+    const { userId, ...updateData } = req.body
+
+    // Eliminar el campo 'role' de updateData si existe
+    delete updateData.role
+
+    const updatedUsers = await User.findByIdAndUpdate(userId, updateData, { new: true })
+
+    if (!updatedUsers) {
+      return res.status(404).json({ message: 'Usuario no encontrado' })
+    }
+
+    res.status(200).json({ success: true, data: updatedUsers })
+  } catch (error) {
+    console.error('Error al actualizar el usuario:', error)
+    res.status(500).json({ success: false, message: 'Error interno del servidor' })
+  }
+}
+
+const deleteUser = async (req, res) => {
+  try {
+    // Extraer el ID del usuario autenticado desde req.body.userId
+    const userId = req.body.userId
+
+    // Eliminar el usuario por su ID
+    const deletedUser = await User.findByIdAndDelete(userId)
+
+    // Verificar si el usuario fue encontrado y eliminado
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'Usuario no encontrado' })
+    }
+
+    // Enviar una respuesta de éxito con el usuario eliminado
+    res.status(200).json({ success: true, data: deletedUser })
+  } catch (error) {
+    // Manejo de errores
+    console.error('Error al eliminar el usuario:', error)
+    res.status(500).json({ success: false, message: 'Error interno del servidor' })
+  }
+}
+const getUserVideos = async (req, res) => {
+  try {
+    const { userId } = req.body
+    if (!userId) {
+      return res.status(400).json({ success: false, message: 'Se requiere el Id del usuario' })
+    }
+    const userAttempts = await Attempt.find({ userId })
+    const videos = []
+    userAttempts.forEach(attempt => {
+      attempt.answers.forEach(answer => {
+        if (typeof answer.data === 'string' && answer.data.endsWith('.mp4')) {
+          videos.push({ video: answer.data, activityId: attempt.activityId })
+        }
+      })
+    })
+    res.status(200).json({ success: true, videos })
+  } catch (error) {
+    console.error('Error al obtener los videos del usuario:', error)
+    res.status(500).json({ success: false, message: 'Error interno del servidor' })
+  }
+}
+
+const getVideo = async (req, res) => {
+  try {
+    const { video } = req.query
+    if (!video) {
+      return res.status(400).json({ success: false, message: 'Se requiere el nombre del archivo' })
+    }
+    const filePath = path.resolve('videos', video)
+    if (!filePath) {
+      return res.status(400).json({ success: false, message: 'Ruta de archivo incorrecta' })
+    }
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        return res.status(500).json({ success: false, message: 'Error al enviar el video' })
+      }
+    })
+  } catch (err) {
+    return res.status(500).json({ success: false, message: `Error al procesar la solicitud: ${err.message}` })
+  }
+}
+
+export default {
+  getUsers,
+  createUser,
+  login,
+  enrollCourse,
+  getUserVideos,
+  getVideo,
+  updateUser,
+  deleteUser
+}

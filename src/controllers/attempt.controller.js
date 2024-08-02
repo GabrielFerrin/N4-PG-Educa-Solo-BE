@@ -48,9 +48,10 @@ const getAttempt = async (req, res) => {
 }
 
 const getAttempts = async (req, res) => {
-  const message = 'Se requiere el id del curso y del usuario'
-  const { userId, activitiesList } = req.body
-  if (!userId || !activitiesList) {
+  const message = 'Se requiere el id del usuario y la lista de actividades'
+  const userId = req.body.userId
+  const activitiesList = req.query.activitiesList.split(',')
+  if (!userId || !activitiesList || activitiesList.length === 0) {
     return res.status(400).json({ success: false, message })
   }
   try {
@@ -60,8 +61,6 @@ const getAttempts = async (req, res) => {
         { activityId: { $in: activitiesList } }
       ]
     }).exec()
-
-    console.log('attempts:', attempts)
     return res.send({ success: true, data: attempts })
   } catch (error) {
     return res.status(500)

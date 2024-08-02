@@ -5,6 +5,7 @@ const allowedOrigins = new Set([
 
 const setCorsHeaders = (req, res) => {
   const origin = req.headers.origin || req.headers.host
+  console.log('ORIGIN:', origin)
   const isAllowed = allowedOrigins.has(origin)
   if (isAllowed) {
     res.setHeader('Access-Control-Allow-Origin', origin)

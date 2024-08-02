@@ -6,5 +6,7 @@ const router = Router()
 
 router.use(validateTeacherRole)
 router.post('/', courseC.createCourse)
+router.patch('/edit', courseC.updateCourse)
+router.delete('/delete', courseC.deleteCourse)
 
 export default router
